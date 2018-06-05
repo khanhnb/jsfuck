@@ -1,6 +1,7 @@
-# JSFuck: code javascript với chỉ 6 ký tự `[]+()!`
+## JSFuck: code javascript với chỉ 6 ký tự `[]+()!`
+@(MISA)[Work, Personal, javascript]
 
-Javascript là một ngôn ngữ lập trình kịch bản phía client, do đó mà code sẽ được chạy thông qua các file scripts (plaintext chứ không phải binary) và chạy hoàn toàn ở dưới máy client. Điều này tiềm ẩn một rủi ro đó là APIs và resources của bạn hoàn toàn có thể bị một ai đó đánh cắp. Đáng buồn là chúng ta **không thể** che giấu code đi được mà chỉ thể làm cho nó khó đọc hơn. JSFuck là một trong những phương pháp ra đời để thực hiện nhiệm vụ này.
+Javascript là một ngôn ngữ lập trình kịch bản phía client, do đó mà code sẽ được chạy thông qua các file scripts (plaintext chứ không phải binary) và chạy hoàn toàn ở dưới máy client. Điều này tiềm ẩn một rủi ro đó là APIs và resources của bạn hoàn toàn có thể bị một ai đó đánh cắp. Đáng buồn là chúng ta **không thể** che giấu code đi được mà chỉ thể làm cho nó khó đọc hơn (obfuscate code). JSFuck là một trong những phương pháp ra đời để thực hiện nhiệm vụ này.
 
 ### JSFuck là gì?
 JSFuck là một style lập trình rất khó hiểu dựa trên những thành phần cốt lõi của javascript. Nó chỉ sử dụng 6 ký tự để viết và chạy code.
@@ -8,7 +9,7 @@ JSFuck là một style lập trình rất khó hiểu dựa trên những thành
 ```javascript
 [][(![]+[])[+[]]+([![]]+[][[]])[+!+[]+[+[]]]+(![]+[])[!+[]+!+[]]+(!![]+[])[+[]]+(!![]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+!+[]]][([][(![]+[])[+[]]+([![]]+[][[]])[+!+[]+[+[]]]+(![]+[])[!+[]+!+[]]+(!![]+[])[+[]]+(!![]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+!+[]]]+[])[!+[]+!+[]+!+[]]+(!![]+[][(![]+[])[+[]]+([![]]+[][[]])[+!+[]+[+[]]]+(![]+[])[!+[]+!+[]]+(!![]+[])[+[]]+(!![]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+!+[]]])[+!+[]+[+[]]]+([][[]]+[])[+!+[]]+(![]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+[]]+(!![]+[])[+!+[]]+([][[]]+[])[+[]]+([][(![]+[])[+[]]+([![]]+[][[]])[+!+[]+[+[]]]+(![]+[])[!+[]+!+[]]+(!![]+[])[+[]]+(!![]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+!+[]]]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+[]]+(!![]+[][(![]+[])[+[]]+([![]]+[][[]])[+!+[]+[+[]]]+(![]+[])[!+[]+!+[]]+(!![]+[])[+[]]+(!![]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+!+[]]])[+!+[]+[+[]]]+(!![]+[])[+!+[]]]((![]+[])[+!+[]]+(![]+[])[!+[]+!+[]]+(!![]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+!+[]]+(!![]+[])[+[]]+(![]+[][(![]+[])[+[]]+([![]]+[][[]])[+!+[]+[+[]]]+(![]+[])[!+[]+!+[]]+(!![]+[])[+[]]+(!![]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+!+[]]])[!+[]+!+[]+[+[]]]+[+!+[]]+(!![]+[][(![]+[])[+[]]+([![]]+[][[]])[+!+[]+[+[]]]+(![]+[])[!+[]+!+[]]+(!![]+[])[+[]]+(!![]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+!+[]]])[!+[]+!+[]+[+[]]])()
 ```
-Đoạn code trên tương đương với việc gọi hàm `alert(1)` trong javascript. Cũng dễ hiểu phết 😭.
+<center>Đoạn code trên tương đương với việc gọi hàm `alert(1)` trong javascript. Cũng dễ hiểu phết 😭</center>
 
 Trước khi đi sâu tìm hiểu xem jsfuck hoạt động như thế nào, tôi xin nhắc lại một số kiến thức javascript cơ bản mà sẽ được jsfuck sử dụng.
 ### Javascript cơ bản
@@ -30,7 +31,7 @@ console.log(!true, typeof(!true)); // false boolean
 Có rất nhiều điều để nói về ép kiểu ngầm ở trong javascript. Tuy nhiên, với jsfuck, chúng ta chỉ cần hiểu tại sao:
 * `[]+[]` là một string rỗng
 * `+[]` bằng `0`
-* `+{}` là `Nan`
+* `+{}` là `NaN`
 
 Ba biểu hiện kỳ quặc này có được bởi sự nhập nhằng khi sử dụng toán tử `+`. Toán tử `+` có thể dùng để nối strings, cộng và ép kiểu.
 Thực tế thì, `Array.prototype.toString()` và `Object.prototype.toString()` đã được gọi ngầm khi ép kiểu Array và Object về kiểu nguyên thủy. Vì vậy, đây là những gì thực tế xảy ra:
@@ -138,9 +139,8 @@ Khi code không ở strict mode thì trong các phương thức thông thường
 #### Áp dụng
 Đọc đến đây chắc là các bạn cũng đã có thể mường tượng được cách thức jsfuck hoạt động rồi phải không.
 * **eval** => `[]["filter"]["constructor"] (CODE)()` đây chính là cách mà jsfuck thực hiện yêu cầu thứ 2 như đã nêu ở phía trên.
-* Yêu cầu thứ nhất được thực hiện theo cách sau: từ `![] = false` ta có thể thu được `"false"` bằng cách `![]+[]`. Và `"false"[0]` sẽ trả về `"f"`. Cùng với các làm như trên áp dụng với các basics trên ta có thể thu được các kí tự sau: `0, 1, 2, 3, 4, 5, 6, 7, 8, 9, f, a, l, s, e, t, r, u, n, d, i`.
+* Yêu cầu thứ nhất được thực hiện theo cách sau: từ `![] = false` ta có thể thu được `"false"` bằng cách `![]+[]`. Và `"false"[0]` sẽ trả về `"f"`. Cùng với cách làm này áp dụng với các basics trên ta có thể thu được các kí tự sau: `0, 1, 2, 3, 4, 5, 6, 7, 8, 9, f, a, l, s, e, t, r, u, n, d, i, N`. Xem thêm cách encode các kí tự khác <a href="https://github.com/aemkei/jsfuck"> tại đây </a>.
 
-Chi tiết có thể tham khảo [tại đây](https://github.com/aemkei/jsfuck)
 
 ### Puzzle
 Giải mã đoạn code sau và comment kết quả ở bên dưới bài viết.
